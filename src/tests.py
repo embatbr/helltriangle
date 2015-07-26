@@ -17,6 +17,7 @@ class HellTriangleTests(unittest.TestCase):
         self.num_lines = 4
         self.lim_min = -10
         self.lim_max = 10
+        self.default_example = [[6], [3, 5], [9, 7, 1], [4, 6, 8, 4]]
 
     def test_should_not_create_an_example_with_zero_lines(self):
         with self.assertRaises(InvalidNumLinesError) as context_manager:
@@ -57,8 +58,7 @@ class HellTriangleTests(unittest.TestCase):
             self.assertTrue(max(example[i]) <= self.lim_max)
 
     def test_should_return_a_correct_path_and_maximum_total_for_a_valid_example(self):
-        example = [[6], [3, 5], [9, 7, 1], [4, 6, 8, 4]]
-        (path, result) = maximum_total(example)
+        (path, result) = maximum_total(self.default_example)
 
         self.assertEqual(path, [(0, 0), (1, 1), (2, 1), (3, 2)])
         self.assertEqual(result, 26)
