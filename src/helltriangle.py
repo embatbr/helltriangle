@@ -1,10 +1,10 @@
 #!/usr/bin/python3.4
 
 
-"""This is a lonely module, written solely to solve the Hell Triangle problem.
-The input is written in the variable "example" (to avoid waste of time reading files
-or user inputs),inside the code block "if __name__ == '__main__'" at the end of
-the file.
+"""This is a module written solely to solve the Hell Triangle problem. The input
+is written in the variable "example" (to avoid waste of time reading files or
+user inputs), inside the code block "if __name__ == '__main__'" at the end of the
+file.
 
 TODO try 2 solutions: using lists and using NumPy.
 """
@@ -68,13 +68,11 @@ def print_result(example, path, total):
     print('%d = %d' % (example[path[-1][0]][path[-1][1]], total))
 
 
-def maximum_total(example, num_lines, path=[(0, 0)], total=None):
+def maximum_total(example, path=[(0, 0)], total=None):
     """Searches the "half matrix" for all paths and finds the better (higher sum).
     In case of a tie, the position "down" has preference over "downright".
 
     @param example: the triangle to be searched.
-    @param num_lines: the number of lines. It's passed to avoid call a function (len)
-    to calculate the number of lines (assuming the compiler will not optimize it).
     @param path: the path that delivers the maximum total for a branch of example.
     @param total: the maximum total for a branch of example.
 
@@ -82,7 +80,7 @@ def maximum_total(example, num_lines, path=[(0, 0)], total=None):
     """
     if len(path) == 1:
         total = example[0][0]
-    if num_lines == 1:
+    if len(example) == 1:
         return (path, total)
 
     i = path[-1][0] + 1
@@ -94,9 +92,9 @@ def maximum_total(example, num_lines, path=[(0, 0)], total=None):
     path_downright = path + [(i, j_right)]
     total_downright = total + example[i][j_right]
 
-    if i < num_lines - 1:
-        (path_down, total_down) = maximum_total(example, num_lines, path_down, total_down)
-        (path_downright, total_downright) = maximum_total(example, num_lines, path_downright,
+    if i < len(example) - 1:
+        (path_down, total_down) = maximum_total(example, path_down, total_down)
+        (path_downright, total_downright) = maximum_total(example, path_downright,
                                                           total_downright)
 
     if total_downright > total_down:
@@ -109,15 +107,20 @@ if __name__ == '__main__':
     import sys
     import time
 
+    from helltriangle import *
+
+
     args = sys.argv[1 : ]
+
     num_lines = int(args[0])
     lim_min = int(args[1])
     lim_max = int(args[2])
+    limits = (lim_min, lim_max)
 
-    example = create_example(num_lines, (lim_min, lim_max))
+    example = create_example(num_lines, limits)
 
     t = time.time()
-    (path, result) = maximum_total(example, num_lines)
+    (path, result) = maximum_total(example)
     t = time.time() - t
 
     print('example = %s' % example)

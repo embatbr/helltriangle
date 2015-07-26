@@ -8,7 +8,9 @@ Implementação do desafio Hell Triangle, descrito no documento HellTriangle-Cha
 - A entrada é composta apenas por inteiros, embora uma adaptação com decimais possa rodar se feita corretamente. Contudo, este caso foi deixado de lado por não parecer necessário.
 
 
-## Chamada
+## Solução
+
+### Chamada
 
 O módulo é chamado através do terminal, no formato `python3.4 helltriangle.py <num_lines> <lim_min> <lim_max>`, onde
 
@@ -18,8 +20,7 @@ O módulo é chamado através do terminal, no formato `python3.4 helltriangle.py
 
 A regra para uma entrada válida é `num_lines > 0` e `lim_min < lim_max`.
 
-
-## Solução
+### Implementação
 
 A linguagem utilizada é Python 3.4, devido à minha familiaridade e preferência pessoal.
 
