@@ -107,8 +107,6 @@ if __name__ == '__main__':
     import sys
     import time
 
-    from helltriangle import *
-
 
     args = sys.argv[1 : ]
 
