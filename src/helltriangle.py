@@ -17,7 +17,6 @@ class InvalidNumLinesError(Exception):
     """Describes the errors occurred when the number of lines from a triangle is
     not a positive number.
     """
-
     def __init__(self, num_lines):
         if num_lines == 0:
             self.msg = 'The triangle must have at least 1 line.'
@@ -30,7 +29,6 @@ class InvalidNumLinesError(Exception):
 class InvalidLimitsError(Exception):
     """Describes the errors occurred when the number of limits are not correct.
     """
-
     def __init__(self, limits):
         lim_min = limits[0]
         lim_max = limits[1]
@@ -42,6 +40,12 @@ class InvalidLimitsError(Exception):
 
     def __str__(self):
         return self.msg
+
+class InvalidExample(Exception):
+    """Describes the error occurred when the input example is not a list of tuples.
+    """
+    def __init__(self, error_type):
+        self.error_type = error_type
 
 
 def create_example(num_lines, limits):
@@ -68,21 +72,27 @@ def print_result(example, path, total):
     print('%d = %d' % (example[path[-1][0]][path[-1][1]], total))
 
 
-def maximum_total(example, path=[(0, 0)], total=None):
+def maximum_total(example):
     """Searches the "half matrix" for all paths and finds the better (higher sum).
     In case of a tie, the position "down" has preference over "downright".
 
     @param example: the triangle to be searched.
-    @param path: the path that delivers the maximum total for a branch of example.
-    @param total: the maximum total for a branch of example.
 
     @returns: a tuple containing path and total.
     """
-    if len(path) == 1:
-        total = example[0][0]
+    if example == []:
+        raise InvalidExample('empty')
+
+    path = [(0, 0)]
+    total = example[0][0]
     if len(example) == 1:
         return (path, total)
 
+    return __maximum_total_aux(example, path, total)
+
+def __maximum_total_aux(example, path, total):
+    """Private function.
+    """
     i = path[-1][0] + 1
     j = path[-1][1]
     j_right = j + 1
@@ -93,8 +103,8 @@ def maximum_total(example, path=[(0, 0)], total=None):
     total_downright = total + example[i][j_right]
 
     if i < len(example) - 1:
-        (path_down, total_down) = maximum_total(example, path_down, total_down)
-        (path_downright, total_downright) = maximum_total(example, path_downright,
+        (path_down, total_down) = __maximum_total_aux(example, path_down, total_down)
+        (path_downright, total_downright) = __maximum_total_aux(example, path_downright,
                                                           total_downright)
 
     if total_downright > total_down:

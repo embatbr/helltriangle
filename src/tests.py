@@ -57,6 +57,15 @@ class HellTriangleTests(unittest.TestCase):
             self.assertTrue(min(example[i]) >= self.lim_min)
             self.assertTrue(max(example[i]) <= self.lim_max)
 
+
+    def test_should_not_calculate_the_maximum_total_for_an_empty_example(self):
+        with self.assertRaises(InvalidExample) as context_manager:
+            example = list()
+            maximum_total(example)
+
+        e = context_manager.exception
+        self.assertEqual(e.error_type, 'empty')
+
     def test_should_return_a_correct_path_and_maximum_total_for_a_valid_example(self):
         (path, result) = maximum_total(self.default_example)
 
